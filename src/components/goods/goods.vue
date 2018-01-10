@@ -5,7 +5,16 @@
         <span class="text"><span class="icon" v-show="item.type > 0" :class="classMap[item.type]"></span>{{item.name}}</span>
       </div>
     </div>
-    <div class="foodsWrap">{{text()}}</div>
+    <div class="foodsWrap">
+      <ul>
+        <li v-for="item in goods" class="foodList">
+          <h1 class="title">{{item.name}}</h1>
+          <ul>
+            <li v-for="food in item.foods" class="itemFood"></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -36,9 +45,6 @@
       }
     },
     methods: {
-      text: function () {
-        return Date.now();
-      },
       selectMenu: function (index, event) {
         console.log(index, event);
       }
