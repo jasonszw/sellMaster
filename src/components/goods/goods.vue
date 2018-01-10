@@ -10,7 +10,12 @@
         <li v-for="item in goods" class="foodList">
           <h1 class="title">{{item.name}}</h1>
           <ul>
-            <li v-for="food in item.foods" class="itemFood"></li>
+            <li v-for="food in item.foods" class="itemFood">
+              <div class="icon">
+                <img :src="food.icon">
+              </div>
+              <div></div>
+            </li>
           </ul>
         </li>
       </ul>
