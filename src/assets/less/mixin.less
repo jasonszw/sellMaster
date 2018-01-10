@@ -1,0 +1,22 @@
+body, html{
+  font-weight: 200;
+  font-family: 'PingFang SC', 'STHeiti', 'HElvetica-Liht', Arial;
+}
+.spanSize (@width, @height) {
+  display: inline-block;
+  width: @width;
+  height: @height;
+}
+
+.bgImg(@url){
+  background: url('../img/@{url}@2x.png') no-repeat;
+  -webkit-background-size: 100% 100%;
+  background-size: 100% 100%;
+  @media screen and (-webkit-min-device-pixel-ratio: 3), screen and (min-device-pixel-ratio: 3) {
+    .bgImg(@url){
+      background: url('../img/@{url}@3x.png') no-repeat;
+      -webkit-background-size: 100% 100%;
+      background-size: 100% 100%;
+    }
+  }
+}
