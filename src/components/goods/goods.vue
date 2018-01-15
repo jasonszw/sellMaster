@@ -8,13 +8,22 @@
     <div class="foodsWrap">
       <ul>
         <li v-for="item in goods" class="foodList">
-          <h1 class="title">{{item.name}}</h1>
+          <p class="title">{{item.name}}</p>
           <ul>
             <li v-for="food in item.foods" class="itemFood">
               <div class="icon">
                 <img :src="food.icon">
               </div>
-              <div></div>
+              <div class="content">
+                <p class="name">{{food.name}}</p>
+                <p class="description" v-show="food.description">{{food.description}}</p>
+                <div class="praiseRate">
+                  <span>月售{{food.sellCount}}份</span><span>好评率{{food.rating}}%</span>
+                </div>
+                <div class="price">
+                  <span>¥{{food.price}}</span><span v-show="food.oldPrice">¥{{food.oldPrice}}</span>
+                </div>
+              </div>
             </li>
           </ul>
         </li>
@@ -118,6 +127,66 @@
     }
     .foodsWrap {
       flex: 1;
+      .foodList {
+        .title {
+          height: 26px;
+          line-height: 26px;
+          font-size: 12px;
+          color: rgb(147, 153, 159);
+          padding-left: 14px;
+          background: #f3f5f7;
+          border-left: 4px solid #d9dde1;
+        }
+        ul {
+          .itemFood {
+            display: flex;
+            margin: 0px 18px;
+            padding: 18px 0px;
+            border-bottom: 1px solid rgba(7, 17, 27, 0.1);
+            &:last-child {
+              border: none;
+            }
+            .icon {
+              flex: 0 0 57px;
+              img {
+                width: 57px;
+                height: 57px;
+              }
+            }
+            .content {
+              flex: auto;
+              padding-left: 10px;
+              .name {
+                font-size: 14px;
+                padding-top: 2px;
+                color: rgb(7, 17, 27);
+              }
+              .description, .praiseRate {
+                font-size: 10px;
+                color: rgb(147, 153, 159);
+                line-height: 10px;
+              }
+              .description {
+                padding-top: 8px;
+              }
+              .praiseRate {
+                padding: 8px 0;
+                span:nth-of-type(1) {
+                  padding-right: 12px;
+                }
+              }
+              .price {
+                span:nth-of-type(1) {
+                  color: rgb(240, 20, 20);
+                  font-size: 14px;
+                  font-weight: 700;
+                  padding-right: 8px;
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 </style>
