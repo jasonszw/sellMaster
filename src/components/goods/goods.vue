@@ -1,11 +1,13 @@
 <template>
   <div class="commodity">
-    <div class="menuWrap">
-      <div v-for="(item, index) in goods" @click="selectMenu(index, $event)" class="menuWrapName" :class="{'current': currentIndex === index}">
-        <span class="text"><span class="icon" v-show="item.type > 0" :class="classMap[item.type]"></span>{{item.name}}</span>
+    <div class="menuWrap" ref="menuWrap">
+      <div>
+        <div v-for="(item, index) in goods" @click="selectMenu(index, $event)" class="menuWrapName" :class="{'current': currentIndex === index}">
+          <span class="text"><span class="icon" v-show="item.type > 0" :class="classMap[item.type]"></span>{{item.name}}</span>
+        </div>
       </div>
     </div>
-    <div class="foodsWrap">
+    <div class="foodsWrap" ref="foodsWrap">
       <ul>
         <li v-for="item in goods" class="foodList">
           <p class="title">{{item.name}}</p>
@@ -21,18 +23,19 @@
                   <span>月售{{food.sellCount}}份</span><span>好评率{{food.rating}}%</span>
                 </div>
                 <div class="price">
-                  <span>¥{{food.price}}</span><span v-show="food.oldPrice">¥{{food.oldPrice}}</span>
+                  <span class="nowPrice">¥{{food.price}}</span><span class="oldPrice" v-show="food.oldPrice">¥{{food.oldPrice}}</span>
                 </div>
               </div>
             </li>
           </ul>
         </li>
       </ul>
-    </div>
+    </div re>
   </div>
 </template>
 
 <script type="text/javascript">
+  import BScroll from 'better-scroll';
   export default {
     props: {
       seller: {
@@ -49,6 +52,10 @@
       this.$http.get('../../../data.json').then((res) => {
         if (res.status === 200) {
           this.goods = res.data.goods;
+          this.$nextTick(() => {
+            this.menuWrap = new BScroll(this.$refs.menuWrap, {});
+            this.foodsWrap = new BScroll(this.$refs.foodsWrap, {});
+          });
         }
       }).catch((err) => {
         console.log(err);
@@ -123,6 +130,9 @@
             }
           }
         }
+        &:last-child .text {
+          border: none;
+        }
       }
     }
     .foodsWrap {
@@ -154,7 +164,7 @@
               }
             }
             .content {
-              flex: auto;
+              flex: 1;
               padding-left: 10px;
               .name {
                 font-size: 14px;
@@ -176,11 +186,16 @@
                 }
               }
               .price {
-                span:nth-of-type(1) {
+                font-weight: 700;
+                .nowPrice {
                   color: rgb(240, 20, 20);
                   font-size: 14px;
-                  font-weight: 700;
                   padding-right: 8px;
+                }
+                .oldPrice {
+                  text-decoration: line-through;
+                  font-size: 10px;
+                  color: rgb(147, 153, 159);
                 }
               }
             }

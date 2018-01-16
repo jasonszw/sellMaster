@@ -16,7 +16,8 @@
     "less": "^2.7.3",
     "less-loader": "^4.0.5",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "better-scroll": "^1.7.2"
   },
   "devDependencies": {
     "less": "^2.7.3",
