@@ -2,14 +2,15 @@
   <div class="commodity">
     <div class="menuWrap" ref="menuWrap">
       <div>
-        <div v-for="(item, index) in goods" @click="selectMenu(index, $event)" class="menuWrapName" :class="{'current': currentIndex === index}">
+        <div v-for="(item, index) in goods" @click="selectMenu(index, $event)" class="menuWrapName"
+             :class="{'current': currentIndex === index}">
           <span class="text"><span class="icon" v-show="item.type > 0" :class="classMap[item.type]"></span>{{item.name}}</span>
         </div>
       </div>
     </div>
     <div class="foodsWrap" ref="foodsWrap">
       <ul>
-        <li v-for="item in goods" class="foodList">
+        <li v-for="item in goods" class="foodList foodListHook">
           <p class="title">{{item.name}}</p>
           <ul>
             <li v-for="food in item.foods" class="itemFood">
@@ -36,6 +37,7 @@
 
 <script type="text/javascript">
   import BScroll from 'better-scroll';
+
   export default {
     props: {
       seller: {
@@ -45,7 +47,9 @@
     data () {
       return {
         goods: [],
-        classMap: ['decrease', 'discount', 'special', 'invoice', 'guarantee']
+        classMap: ['decrease', 'discount', 'special', 'invoice', 'guarantee'],
+        listHeight: [],
+        scrollY: 0
       };
     },
     created: function () {
@@ -53,8 +57,8 @@
         if (res.status === 200) {
           this.goods = res.data.goods;
           this.$nextTick(() => {
-            this.menuWrap = new BScroll(this.$refs.menuWrap, {});
-            this.foodsWrap = new BScroll(this.$refs.foodsWrap, {});
+            this.scrollFn();
+            this.calculationHeight();
           });
         }
       }).catch((err) => {
@@ -63,11 +67,41 @@
     },
     computed: {
       currentIndex: function () {
+        for (let i = 0; i < this.listHeight.length; i++) {
+          let height1 = this.listHeight[i];
+          let height2 = this.listHeight[i + 1];
+          if (!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
+            return i;
+          }
+        }
+        return 0;
       }
     },
     methods: {
       selectMenu: function (index, event) {
-        console.log(index, event);
+        // 获取右边商品列表，左侧列表索引与右侧列表索引结合
+        let foodList = this.$refs.foodsWrap.getElementsByClassName('foodListHook');
+        let el = foodList[index];
+        this.foodsScroll.scrollToElement(el, 300);
+      },
+      // 实现滚动的方法
+      scrollFn: function () {
+        this.menuScroll = new BScroll(this.$refs.menuWrap, {click: true});
+        this.foodsScroll = new BScroll(this.$refs.foodsWrap, {probeType: 3});
+        this.foodsScroll.on('scroll', (pos) => {
+          this.scrollY = Math.abs(Math.round(pos.y));
+        });
+      },
+      // 计算右侧每栏的高度
+      calculationHeight: function () {
+        let foodList = this.$refs.foodsWrap.getElementsByClassName('foodListHook');
+        let height = 0;
+        this.listHeight.push(height);
+        for (let i = 0; i < foodList.length; i++) {
+          let item = foodList[i];
+          height += item.clientHeight;
+          this.listHeight.push(height);
+        }
       }
     }
   };
@@ -76,6 +110,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
   @import "../../assets/less/mixin";
+
   .commodity {
     display: flex;
     position: absolute;
@@ -90,7 +125,7 @@
       .menuWrapName {
         height: 54px;
         font-size: 12px;
-        color: rgb(77,85,93);
+        color: rgb(77, 85, 93);
         padding: 0 12px;
         display: table;
         &.current {
@@ -99,7 +134,9 @@
           background: #fff;
           z-index: 10;
           font-width: 700;
-          border: none;
+          .text {
+            border: none;
+          }
         }
         .text {
           display: table-cell;
