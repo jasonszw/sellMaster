@@ -119,12 +119,11 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
   @import "../../assets/less/mixin";
-
   .commodity {
     display: flex;
     position: absolute;
     top: 177px;
-    bottom: 36px;
+    bottom: 48px;
     width: 100%;
     overflow: hidden;
     .menuWrap {

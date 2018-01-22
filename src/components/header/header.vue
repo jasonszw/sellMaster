@@ -82,7 +82,6 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" scoped>
   @import "../../assets/less/mixin.less";
-  @import "../../assets/less/icon.less";
   .header {
     color: #fff;
     background-color: rgba(7,17,27,0.5);

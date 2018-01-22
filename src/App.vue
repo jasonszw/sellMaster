@@ -44,6 +44,7 @@
 </script>
 
 <style lang="less">
+  @import "assets/less/icon.less";
   .tab {
     width: 100%;
     display: flex;
