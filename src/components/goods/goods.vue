@@ -2,7 +2,7 @@
   <div class="commodity">
     <div class="menuWrap" ref="menuWrap">
       <div>
-        <div v-for="(item, index) in goods" @click="selectMenu(index, $event)" class="menuWrapName"
+        <div v-for="(item, index) in goods" @click="selectMenu(index, $event)" class="menuWrapName menuListHook"
              :class="{'current': currentIndex === index}">
           <span class="text"><span class="icon" v-show="item.type > 0" :class="classMap[item.type]"></span>{{item.name}}</span>
         </div>
@@ -31,12 +31,14 @@
           </ul>
         </li>
       </ul>
-    </div re>
+    </div>
+    <shopcart></shopcart>
   </div>
 </template>
 
 <script type="text/javascript">
   import BScroll from 'better-scroll';
+  import shopcart from '../shopcart/shopcart';
 
   export default {
     props: {
@@ -79,10 +81,14 @@
     },
     methods: {
       selectMenu: function (index, event) {
+        console.log(event);
+        // if (!event._constructed) {
+        //   return;
+        // }
         // 获取右边商品列表，左侧列表索引与右侧列表索引结合
         let foodList = this.$refs.foodsWrap.getElementsByClassName('foodListHook');
         let el = foodList[index];
-        this.foodsScroll.scrollToElement(el, 300);
+        this.foodsScroll.scrollToElement(el, 100);
       },
       // 实现滚动的方法
       scrollFn: function () {
@@ -92,8 +98,8 @@
           this.scrollY = Math.abs(Math.round(pos.y));
         });
       },
-      // 计算右侧每栏的高度
       calculationHeight: function () {
+        // 计算右侧每栏的高度
         let foodList = this.$refs.foodsWrap.getElementsByClassName('foodListHook');
         let height = 0;
         this.listHeight.push(height);
@@ -101,8 +107,11 @@
           let item = foodList[i];
           height += item.clientHeight;
           this.listHeight.push(height);
-        }
+        };
       }
+    },
+    components: {
+      shopcart
     }
   };
 </script>
