@@ -7,17 +7,26 @@
               <span class="iconShopping_cart"></span>
             </div>
           </div>
-          <div class="price">￥886</div>
-          <div class="desc">另需配送费￥10元</div>
+          <div class="price">￥0</div>
+          <div class="desc">另需配送费￥{{deliveryPrice}}元</div>
         </div>
-        <div class="contentRight"></div>
+        <div class="contentRight">￥{{minPrice}}起送</div>
       </div>
     </div>
 </template>
 
 <script>
     export default {
-        name: 'shopcart'
+      props: {
+        deliveryPrice: {
+          type: Number,
+          default: 0
+        },
+        minPrice: {
+          type: Number,
+          default: 0
+        }
+      }
     };
 </script>
 
@@ -32,6 +41,7 @@
     .content {
       display: flex;
       height: 100%;
+      color: rgba(255,255,255,0.4);
     }
     .contentLeft {
       background: #141d27;
@@ -65,8 +75,7 @@
         display: inline-block;
         vertical-align: top;
         font-weight: 700;
-        color: rgba(255,255,255,0.4);
-        font-size: 10px;
+        font-size: 12px;
         margin-top: 19px;
       }
       .price {
@@ -81,6 +90,11 @@
       flex: 0 0 105px;
       width: 105px;
       background: rgb(44, 51, 58);
+      text-align: center;
+      vertical-align: top;
+      line-height: 48px;
+      font-size: 12px;
+      font-weight: 700;
     }
   }
 </style>
