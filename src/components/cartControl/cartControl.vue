@@ -1,12 +1,13 @@
 <template>
   <div class="cartControl">
-    <div class="cartDecrease iconRemove_circle_outline" v-show="food.count>0"></div>
+    <div class="cartDecrease iconRemove_circle_outline" v-show="food.count>0" @click="cartRemove"></div>
     <div class="cartContent" v-show="food.count>0">{{food.count}}</div>
     <div class="cartAdd iconAdd_circle" @click="cartAdd"></div>
   </div>
 </template>
 
 <script>
+  import Vue from 'vue';
   export default {
     props: {
       food: {
@@ -14,8 +15,19 @@
       }
     },
     methods: {
+      // 添加商品
       cartAdd () {
-        console.log(11);
+        if (!this.food.count) {
+          Vue.set(this.food, 'count', 1);
+        } else {
+          this.food.count++;
+        }
+      },
+      // 删除商品
+      cartRemove () {
+        if (this.food.count) {
+          this.food.count--;
+        }
       }
     }
   };
@@ -38,6 +50,13 @@
     }
     .cartContent {
       display: inline-block;
+      vertical-align: top;
+      width: 12px;
+      padding-top: 6px;
+      text-align: center;
+      font-size: 10px;
+      color: rgb(147, 153, 159);
+      line-height: 24px;
     }
     .cartAdd {
       display: inline-block;

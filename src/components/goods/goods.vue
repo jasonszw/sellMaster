@@ -97,7 +97,7 @@
       // 实现滚动的方法
       scrollFn: function () {
         this.menuScroll = new BScroll(this.$refs.menuWrap, {click: true});
-        this.foodsScroll = new BScroll(this.$refs.foodsWrap, {probeType: 3});
+        this.foodsScroll = new BScroll(this.$refs.foodsWrap, {probeType: 3, click: true});
         this.foodsScroll.on('scroll', (pos) => {
           this.scrollY = Math.abs(Math.round(pos.y));
         });
