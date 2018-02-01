@@ -18,6 +18,7 @@
     },
     methods: {
       // 添加商品
+      // 添加商品
       cartAdd () {
         if (!this.food.count) {
           Vue.set(this.food, 'count', 1);
